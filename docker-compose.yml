@@ -1,0 +1,19 @@
+version: "3"
+services:
+  node:
+    build:
+      context: node
+    image: rudwns273/node:echo-hostname
+    ports:
+      - 3000:3000
+    environment:
+      VERSION: "v1"
+  django:
+    build:
+      context: django
+    image: rudwns273/django:echo-hostname
+    ports:
+      - 8000:8000
+    environment:
+      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
+      VERSION: "v1"
