@@ -17,7 +17,7 @@ app.get('/api/', (req, res)=>{
     const options = {
         // call using service name
         // uri: 'http://echo-hostname-backend:8000'
-        uri: 'http://django:8000',
+        uri: `${process.env.REQUEST_URL}`,
         headers:headers
     }
     request(options, (err, response, body)=>{

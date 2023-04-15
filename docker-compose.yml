@@ -8,6 +8,7 @@ services:
       - 3000:3000
     environment:
       VERSION: "v1"
+      REQUEST_URL: "http://django:8000"
   django:
     build:
       context: django
