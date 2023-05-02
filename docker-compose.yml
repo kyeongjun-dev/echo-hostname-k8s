@@ -1,20 +1,23 @@
 version: "3"
 services:
-  node:
-    build:
-      context: node
-    image: rudwns273/node:echo-hostname
-    ports:
-      - 3000:3000
-    environment:
-      VERSION: "v1"
-      REQUEST_URL: "http://django:8000"
-  django:
+  django1:
     build:
       context: django
     image: rudwns273/django:echo-hostname
+    command: python manage.py runserver 0.0.0.0:3000
+    ports:
+      - 3000:3000
+    environment:
+      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
+      VERSION: "v1"
+      REQUEST_URL: "django2:8000"
+  django2:
+    build:
+      context: django
+    image: rudwns273/django:echo-hostname
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
     environment:
       DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
-      VERSION: "v1"
+      VERSION: "v2"
