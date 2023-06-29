@@ -44,3 +44,47 @@ docker-compose를 이용해 서비스 실행
 ```
 docker-compose up -d --build
 ```
+
+## Kubernetes
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  type: ClusterIP
+  ports:
+  - port: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v1
+    spec:
+      containers:
+      - name: django
+        image: rudwns273/django:echo-hostname-v2-aws
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: VERSION
+          value: "backend"
+        - name: DJANGO_SECRET_KEY
+          value: "SvV;8F!-H}ESc^/1+5c>&Ty4.r&d$cH65hTM<TpJ>$pIln!**j"
+        - name: REQUEST_URL
+          value: 'backend.istio-test.svc.cluster.local:8000'
+```
